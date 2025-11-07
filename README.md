@@ -6,6 +6,7 @@ Features:
 - Uses PostgreSQL to execute queries
 - Uses LLM to craft human-readable responses
 
-LLM - Open Source HF Model 
-Embeddings - Open Source HF Model
-VectorDB - Qdrant Cloud (Free tier)
+Specifics:
+- LLM - Open Source HF Model 
+- Embeddings - Open Source HF Model
+- VectorDB - Qdrant Cloud (Free tier)
