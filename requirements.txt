@@ -3,3 +3,4 @@ psycopg2-binary
 pydantic
 fastapi
 uvicorn
+python-dotenv
