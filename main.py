@@ -2,6 +2,7 @@ import sys
 import argparse
 from src.pipeline.offline import run_offline_preprocessing
 from src.pipeline.live import execute_query
+from logger import logger
 
 def main():
     parser = argparse.ArgumentParser(description="Query-ChatBot: Dynamic Schema Text-to-SQL System")
@@ -25,7 +26,7 @@ def main():
         try:
             run_offline_preprocessing()
         except Exception as e:
-            print(f"Error during preprocessing: {e}", file=sys.stderr)
+            logger.error(f"Error during preprocessing: {e}")
             sys.exit(1)
             
     elif args.command == "query":
@@ -35,16 +36,16 @@ def main():
             print(result["response"])
             print("----------------------")
         except Exception as e:
-            print(f"Error executing query: {e}", file=sys.stderr)
+            logger.error(f"Error executing query: {e}")
             sys.exit(1)
-
+ 
     elif args.command == "serve":
         import uvicorn
         try:
-            print(f"Starting server on http://{args.host}:{args.port}")
+            logger.info(f"Starting server on http://{args.host}:{args.port}")
             uvicorn.run("src.api:app", host=args.host, port=args.port, reload=True)
         except Exception as e:
-            print(f"Error starting server: {e}", file=sys.stderr)
+            logger.error(f"Error starting server: {e}")
             sys.exit(1)
 
 if __name__ == "__main__":

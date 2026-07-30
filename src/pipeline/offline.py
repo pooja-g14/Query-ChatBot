@@ -1,14 +1,15 @@
 from src.database.extractor import extract_full_schema
 from src.agents.summarizer import summarize_table_schema
 from src.utils.manifest import load_manifest, save_manifest, save_router_map, save_fk_graph
+from logger import logger
 
 def run_offline_preprocessing():
     """Runs the offline schema preprocessing pipeline."""
-    print("Starting schema preprocessing...")
+    logger.info("Starting schema preprocessing...")
     
     # 1. Extract current database schema metadata
     current_schema = extract_full_schema()
-    print(f"Extracted schema details for {len(current_schema)} table(s).")
+    logger.info(f"Extracted schema details for {len(current_schema)} table(s).")
     
     # 2. Load previous manifest
     old_manifest = load_manifest()
@@ -33,7 +34,7 @@ def run_offline_preprocessing():
         
         # If no summary exists (or structural hash mismatch), generate it
         if not summary:
-            print(f"Table '{table_name}' has changed or is new. Summarizing using LLM...")
+            logger.info(f"Table '{table_name}' has changed or is new. Summarizing using LLM...")
             summary = summarize_table_schema(table_name, details)
             summarized_count += 1
             
@@ -56,9 +57,5 @@ def run_offline_preprocessing():
     save_router_map(router_map)
     save_fk_graph(fk_graph)
     
-    print("Preprocessing completed successfully!")
-    print(f"Summary: {reused_count} tables reused, {summarized_count} tables newly summarized.")
-    print("Artifacts generated:")
-    print("- Artifact A (router_map.json)")
-    print("- Artifact B (fk_graph.json)")
-    print("- Cached manifest (schema_manifest.json)")
+    logger.info("Preprocessing completed successfully!")
+    logger.info(f"Summary: {reused_count} tables reused, {summarized_count} tables newly summarized.")
