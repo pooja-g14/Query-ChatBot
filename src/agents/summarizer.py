@@ -58,7 +58,9 @@ def summarize_results(user_query: str, sql: str, results: list) -> str:
     {serialized_results}
 
     Create a clean, human-readable, and natural language response that directly answers the user's query. 
-    Use markdown tables or formatting where appropriate to make the data easy to read. 
+    
+    CRITICAL: Do NOT generate raw database tables, markdown tables, or raw rows in your text response. Instead, provide a conversational, high-level summary/explanation of the results, and politely instruct the user to view the detailed rows in the "Database Records" section below (hardcoded already).
+    
     If the results are empty, politely state that no matching records were found.
     """
     response = client.models.generate_content(
